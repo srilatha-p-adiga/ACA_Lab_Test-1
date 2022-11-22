@@ -1,0 +1,166 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;1. Using ARM assembly, Check whether the hexadecimal nu
+                       mber stored in 4000 0000h (32-bit number) is a palindrom
+                       e or not. 
+    2 00000000         ;Example: 01011010, FFFFFFFF, 32322323 
+    3 00000000         
+    4 00000000                 AREA             PROGRAM,CODE,READONLY
+    5 00000000                 ENTRY
+    6 00000000         MAIN
+    7 00000000 E3A00101        LDR              R0,=0x40000000 ; Load the addre
+                                                            ss value in Registe
+                                                            r R0
+    8 00000004 E4D01001        LDRB             R1,[R0],#1  ; Load the values b
+                                                            yte by byte 
+    9 00000008 E4D02001        LDRB             R2,[R0],#1  ; Load the values b
+                                                            yte by byte
+   10 0000000C E4D03001        LDRB             R3,[R0],#1  ; Load the values b
+                                                            yte by byte
+   11 00000010 E4D04001        LDRB             R4,[R0],#1  ; Load the values b
+                                                            yte by byte
+   12 00000014         
+   13 00000014 E203600F        AND              R6,R3,#0x0F ; Mask the 4 bits o
+                                                            f the Register R3 b
+                                                            y ANDing it with 0x
+                                                            0F and store it in 
+                                                            R6
+   14 00000018 E1A06206        MOV              R6,R6,LSL #4 ; Left shift the c
+                                                            ontents of R6 by fo
+                                                            ur bits 
+   15 0000001C E1A07006        MOV              R7,R6       ; Move the contents
+                                                             to register R7
+   16 00000020         
+   17 00000020 E20380F0        AND              R8,R3,#0xF0 ; Mask the 4 bits o
+                                                            f the Register R3 b
+                                                            y ANDing it with 0x
+                                                            F0 and store it in 
+                                                            R8
+   18 00000024 E1A08228        MOV              R8,R8,LSR #4 ; Right shift the 
+                                                            contents of R8 by f
+                                                            our bits 
+   19 00000028 E0873008        ADD              R3,R7,R8    ; R3=R7+R8
+   20 0000002C         
+   21 0000002C E204600F        AND              R6,R4,#0x0F ; Mask the 4 bits o
+                                                            f the Register R4 b
+                                                            y ANDing it with 0x
+                                                            0F and store it in 
+                                                            R6
+   22 00000030 E1A06206        MOV              R6,R6,LSL #4 ; Left shift the c
+                                                            ontents of R6 by fo
+                                                            ur bits 
+   23 00000034 E1A07006        MOV              R7,R6       ; Move the contents
+                                                             to register R7 
+   24 00000038         
+   25 00000038 E20480F0        AND              R8,R4,#0xF0 ; Mask the 4 bits o
+                                                            f the Register R3 b
+                                                            y ANDing it with 0x
+                                                            F0 and store it in 
+                                                            R8
+   26 0000003C E1A08228        MOV              R8,R8,LSR #4 ; Right shift the 
+                                                            contents of R8 by f
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+                                                            our bits
+   27 00000040 E0874008        ADD              R4,R7,R8    ; R4=R7+R8
+   28 00000044         
+   29 00000044 E1510004        CMP              R1,R4       ; Compare the value
+                                                            s in Register R1 an
+                                                            d R4
+   30 00000048 1A000001        BNE              NOT_PALINDROME ; If not equal b
+                                                            ranch to not paliin
+                                                            drome
+   31 0000004C         
+   32 0000004C         PALINDROME
+   33 0000004C E1520003        CMP              R2,R3       ; Compare R2 and R3
+                                                            
+   34 00000050 0A000001        BEQ              TRUE        ; Branch to True if
+                                                             they are equal
+   35 00000054         
+   36 00000054         NOT_PALINDROME
+   37 00000054 E3A05000        LDR              R5,=0       ; Load the Register
+                                                             R5=0 (false) if th
+                                                            e number is not a p
+                                                            alindrome
+   38 00000058 EA000000        B                STOP        ; Branch to Stop
+   39 0000005C         
+   40 0000005C         TRUE
+   41 0000005C E3A05001        LDR              R5,=1       ; Load the Register
+                                                             R5=1 (true) if the
+                                                             number is a palind
+                                                            rome
+   42 00000060         
+   43 00000060 EAFFFFFE 
+                       STOP    B                STOP
+   44 00000064         
+   45 00000064                 END
+Command Line: --debug --xref --diag_suppress=9931 --apcs=interwork --depend=.\o
+bjects\palindrome.d -o.\objects\palindrome.o -IC:\Keil_v5\ARM\RV31\INC -IC:\Kei
+l_v5\ARM\CMSIS\Include -IC:\Keil_v5\ARM\INC\Philips --predefine="__EVAL SETA 1"
+ --predefine="__UVISION_VERSION SETA 529" --list=.\listings\palindrome.lst Pali
+ndrome.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+MAIN 00000000
+
+Symbol: MAIN
+   Definitions
+      At line 6 in file Palindrome.s
+   Uses
+      None
+Comment: MAIN unused
+NOT_PALINDROME 00000054
+
+Symbol: NOT_PALINDROME
+   Definitions
+      At line 36 in file Palindrome.s
+   Uses
+      At line 30 in file Palindrome.s
+Comment: NOT_PALINDROME used once
+PALINDROME 0000004C
+
+Symbol: PALINDROME
+   Definitions
+      At line 32 in file Palindrome.s
+   Uses
+      None
+Comment: PALINDROME unused
+PROGRAM 00000000
+
+Symbol: PROGRAM
+   Definitions
+      At line 4 in file Palindrome.s
+   Uses
+      None
+Comment: PROGRAM unused
+STOP 00000060
+
+Symbol: STOP
+   Definitions
+      At line 43 in file Palindrome.s
+   Uses
+      At line 38 in file Palindrome.s
+      At line 43 in file Palindrome.s
+
+TRUE 0000005C
+
+Symbol: TRUE
+   Definitions
+      At line 40 in file Palindrome.s
+   Uses
+      At line 34 in file Palindrome.s
+Comment: TRUE used once
+6 symbols
+338 symbols in table
